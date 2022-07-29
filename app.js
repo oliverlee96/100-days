@@ -1,5 +1,11 @@
+const express = require('express')
+const app = express()
+app.get('/', (req,res) => res.send('Hello World!'))
+app.listen(3000, () => console.log('Server running on port 3000'))
+
+
 let age = 25; 
-alert(age); /* Displays the value as an alert in the browser */
+console.log(age); /* Displays the value as an alert in the browser */
 let userName = 'Ollie'; /* Creating a variable with a string value */
 let hobbies = ['Football', 'Music', 'The Pub']; /* Creating an array */
 let job = {
@@ -8,8 +14,8 @@ let job = {
     employer: 'Elements.cloud'
 }; /* Creating an object */
 
-alert(hobbies[0]); /* Accessing an item in an array */
-alert(job.employer); /* Accessing an item in an object */
+console.log(hobbies[0]); /* Accessing an item in an array */
+console.log(job.employer); /* Accessing an item in an object */
 
 let adultYears; /* You can declare the variable without a value */
 
@@ -33,5 +39,5 @@ function calculateAdultYears(userAge) {
 /* So below you add the value for the variable userAge in the brackets, and it uses this to complete the calculation */
 
 totalAdultYears = calculateAdultYears(50);
-alert(totalAdultYears);
+console.log(totalAdultYears);
 
