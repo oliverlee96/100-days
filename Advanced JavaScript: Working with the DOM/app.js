@@ -7,9 +7,19 @@ document.body.children[1].children[0].href = "https://google.com";
 //You have to be sure of the structure especially if drilling into an array
 
 //Better to query in case of structure changes
-//Below code queries by CSS selector
-document.getElementById('some-id');
-document.querySelector('.some-class');
+//Below code queries by id selector, getElementById
+
+let anchorElement = document.getElementById("external-link");
+anchorElement.href = "https://google.com";
+
+//can also be done using the querySelector, which works similar to CSS selectors using #[id]
+
+anchorElement = document.querySelector("#external-id");
+anchorElement.href = "https://academind.com";
+
+
+
+
 
 
 
