@@ -1,25 +1,25 @@
-console.dir(document); //Allows you to access document property within the window object
-//Can use console.log but console.dir shows you full object in the console
+let paragraphElement = document.querySelector('p');
 
-document.body.children[1].children[0].href = "https://google.com";
+function changeParagraphText() {
+    paragraphElement.textContext = 'Clicked!';
+}
 
-//This code drills into the DOM but if the path changes your code needs to as well, otherwise it breaks
-//You have to be sure of the structure especially if drilling into an array
+paragraphElement.addEventListener('click', changeParagraphText);
 
-//Better to query in case of structure changes
-//Below code queries by id selector, getElementById
+let inputElement = document.querySelector('input');
 
-let anchorElement = document.getElementById("external-link");
-anchorElement.href = "https://google.com";
+function retrieveUserInput(event) {
+    // let enteredText = inputElement.value;
+    let enteredText = event.target.value;
+    // let enteredText = event.data; will show the individual added letter not the full word
+    console.log(enteredText);
+    console.log(event);
+}
 
-//can also be done using the querySelector, which works similar to CSS selectors using #[id]
+inputElement.addEventListener('input', retrieveUserInput);
 
-anchorElement = document.querySelector("#external-id");
-anchorElement.href = "https://academind.com";
-
-
-
-
-
+//We are listening to each keystroke and you will see it displayed in the console log of the browser.
+//Event object automatically generated and logged also , describing the event that occurred. 
+//This includes the "data" property which shows the value
 
 
