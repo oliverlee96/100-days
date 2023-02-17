@@ -11,7 +11,7 @@ router.get('/', function(req, res) {
   res.redirect('/posts');
 });
 
-router.get('/posts', async function(req, res) {
+router.get('/posts', async function(req, res, next) {
   const posts = await db
   .getDb()
   .collection('posts')
@@ -47,11 +47,17 @@ router.post('/posts', async function (req, res) {
 });
 
 router.get('/posts/:id', async function (req,res) {
-  const postId = req.params.id;
-  const post = await db
+  let postId = req.params.id;
+  
+    try {
+      postId = new ObjectId(postId);
+    } catch (error) {
+      return res.status(404).render('404');
+    }
+    const post = await db
     .getDb()
     .collection('posts')
-    .findOne({_id: new ObjectId(postId)}, {summary: 0});
+    .findOne({_id: postId}, {summary: 0});
 
   if (!post) {
     return res.status(404).render('404');
