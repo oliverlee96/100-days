@@ -24,15 +24,32 @@ function createCommentsList(comments) {
 
 async function fetchCommentsForPost() {
     const postId = loadCommentsBtn.dataset.postid;
-    const response = await fetch(`/posts/${postId}/comments`);
+    try {
+        const response = await fetch(`/posts/${postId}/comments`);
+
+    if(!response.ok) {
+        alert("Fetching comments failed");
+        return;
+    }
+
     const responseData = await response.json();
 
-    const commentListElement = createCommentsList(responseData);
-    commentsSection.innerHTML = '';
-    commentsSection.appendChild(commentListElement);
+    if (responseData && responseData.length > 0) {
+        const commentListElement = createCommentsList(responseData);
+        commentsSection.innerHTML = '';
+        commentsSection.appendChild(commentListElement);
+    } else {
+        commentsSection.firstElementChild.textContent = "There are no comments on this post yet."
+    } 
+
+    } catch (error) {
+        alert("Getting comments failed");
+    }
+
+    
 };
 
-function saveComment(event) {
+async function saveComment(event) {
     event.preventDefault();
     const postId = commentsFormElement.dataset.postid;
 
@@ -41,13 +58,30 @@ function saveComment(event) {
 
     const comment = {title: enteredTitle, text: enteredText}
 
-    fetch(`/posts/${postId}/comments`, {
-        method: 'POST',
-        body: JSON.stringify(comment),
-        headers: {
-            'Content-Type': 'application/json'
+    try {
+        const response = await fetch(`/posts/${postId}/comments`, {
+            method: 'POST',
+            body: JSON.stringify(comment),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            fetchCommentsForPost();
+        } else {
+            alert('Unable to save comment');
         }
-    });
+
+    } catch (error) {
+        alert("Could not send request - try again later");
+    }
+
+    
+
+   
+
+    
 }
 
 loadCommentsBtn.addEventListener('click', fetchCommentsForPost);
