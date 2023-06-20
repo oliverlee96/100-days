@@ -29,7 +29,10 @@ app.use(session({
   secret: 'the-secret-key',
   resave: false,
   saveUninitialized: false,
-  store: sessionStore
+  store: sessionStore,
+  cookie: {
+    maxAge: 30 * 24 * 60 * 60 *1000 //set cookie expiry date 30 days from creation
+  }
 }));
 
 app.use(demoRoutes);
