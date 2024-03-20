@@ -31,9 +31,26 @@ app.use(session({
   saveUninitialized: false,
   store: sessionStore,
   cookie: {
-    maxAge: 30 * 24 * 60 * 60 *1000 //set cookie expiry date 30 days from creation
+    maxAge: 30 * 24 * 60 * 60 * 1000 //set cookie expiry date 30 days from creation
   }
 }));
+
+app.use(async function (req, res, next) {
+  const user = req.session.user;
+  const isAuth = req.session.isAuthenticated;
+
+  if (!user || !isAuth) {
+    return next(); // forwards to the next middleware/route
+  }
+
+  const userDoc = await db.getDb().collection('users').findOne({_id: user.id});
+  const isAdmin = userDoc.isAdmin;
+
+  res.locals.isAuth = isAuth; //setting global data
+  res.locals.isAdmin = isAdmin;
+
+  next();
+})
 
 app.use(demoRoutes);
 
